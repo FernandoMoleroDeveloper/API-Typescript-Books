@@ -1,7 +1,7 @@
 import express from "express";
 
 // Modelos
-import { Book } from "../models/Book.js";
+import { Book } from "../models/Book";
 import { type Request, type Response, type NextFunction } from "express";
 // Router propio de usuarios
 

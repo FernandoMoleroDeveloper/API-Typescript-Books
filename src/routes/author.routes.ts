@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
 import { Author } from "../models/Author";
 import { Book } from "../models/Book";
 import { isAuth } from "../middlewares/auth.middleware";
-import { generateToken } from "../utils/token.js";
+import { generateToken } from "../utils/token";
 import { type Request, type Response, type NextFunction } from "express";
 const upload = multer({ dest: "public" });
 
