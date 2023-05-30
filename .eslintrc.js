@@ -30,5 +30,6 @@ module.exports = {
     ],
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/strict-boolean-expressions": "off",
+    "@typescript-eslint/restrict-plus-operands": "off",
   },
 };

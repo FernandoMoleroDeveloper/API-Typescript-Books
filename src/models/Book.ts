@@ -43,7 +43,7 @@ const bookSchema = new Schema<IBook>(
           required: true,
           trim: true,
           minLength: [3, "Ese pais no puede existir"],
-          maxLength: [20, "Ese pais no se puede pronunciar"],
+          maxLength: [40, "Ese pais no se puede pronunciar"],
         },
       },
       required: false,
