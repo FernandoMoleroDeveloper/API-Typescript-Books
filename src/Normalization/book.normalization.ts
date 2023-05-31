@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { connect } from "../db";
-import { Book } from "../models/Book";
+import { mongoConnect } from "../databases/mongo-db";
+import { Book } from "../models/mongo/Book";
 
 const bookNormalization = async (): Promise<void> => {
   try {
-    await connect();
+    await mongoConnect();
     console.log("Conexíón realizada correctamente.");
 
     const books = await Book.find();

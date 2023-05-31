@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { connect } from "../db";
-import { Book } from "../models/Book";
+import { mongoConnect } from "../databases/mongo-db";
+import { Book } from "../models/mongo/Book";
 import { faker } from "@faker-js/faker";
 
 const bookList: any = [];
@@ -21,7 +21,7 @@ for (let i = 0; i < 50; i++) {
 const bookSeed = async (): Promise<void> => {
   try {
     // Conectar a BBDD
-    await connect();
+    await mongoConnect();
     console.log("Tenemos conexión");
     // Borrar datos
     await Book.collection.drop();

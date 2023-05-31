@@ -3,7 +3,7 @@ import fs from "fs";
 import multer from "multer";
 import bcrypt from "bcrypt";
 // Modelos
-import { Author } from "../models/Author";
+import { Author } from "../models/mongo/Author";
 import { Book } from "../models/Book";
 import { isAuth } from "../middlewares/auth.middleware";
 import { generateToken } from "../utils/token";

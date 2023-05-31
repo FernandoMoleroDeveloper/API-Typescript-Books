@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { connect } from "../db";
-import { Author } from "../models/Author";
+import { mongoConnect } from "../databases/mongo-db";
+import { Author } from "../models/mongo/Author";
 
 const authorNormalization = async (): Promise<void> => {
   try {
-    await connect();
+    await mongoConnect();
     console.log("Conexíón realizada correctamente.");
     const authors = await Author.find().select("+password");
     console.log(`Hemos recuperado ${authors.length} autores de la base de datos`);

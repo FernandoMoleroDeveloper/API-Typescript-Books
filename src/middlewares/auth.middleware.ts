@@ -1,4 +1,4 @@
-import { Author } from "../models/Author";
+import { Author } from "../models/mongo/Author";
 import { verifyToken } from "../utils/token";
 import { type Response, type NextFunction } from "express";
 

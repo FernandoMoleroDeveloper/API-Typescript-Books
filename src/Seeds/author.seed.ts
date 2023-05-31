@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import { connect } from "../db.js";
-import { Author } from "../models/Author.js";
+import { mongoConnect } from "../databases/mongo-db.js";
+import { Author } from "../models/mongo/Author.js";
 
 const authorSeed = async (): Promise<void> => {
   try {
-    await connect();
+    await mongoConnect();
     console.log("Tenemos conexión");
 
     // Borrar datos
