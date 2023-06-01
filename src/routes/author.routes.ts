@@ -4,7 +4,7 @@ import multer from "multer";
 import bcrypt from "bcrypt";
 // Modelos
 import { Author } from "../models/mongo/Author";
-import { Book } from "../models/Book";
+import { Book } from "../models/mongo/Book";
 import { isAuth } from "../middlewares/auth.middleware";
 import { generateToken } from "../utils/token";
 import { type Request, type Response, type NextFunction } from "express";

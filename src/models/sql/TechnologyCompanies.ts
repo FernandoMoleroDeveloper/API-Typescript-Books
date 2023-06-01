@@ -1,4 +1,5 @@
 export interface TechnologyCompaniesBody {
+  id: number;
   name: string;
   foundedYear: number;
   employesNumber: number;

@@ -18,8 +18,8 @@ export const sqlConnect = async (): Promise<Connection> => {
   return connection;
 };
 
-export const sqlQuery = async (sqlQuery: string): Promise<any> => {
+export const sqlQuery = async (sqlQuery: string, params?: any[]): Promise<any> => {
   const connection = await sqlConnect();
-  const [results] = await connection.execute(sqlQuery);
+  const [results] = await connection.execute(sqlQuery, params);
   return results;
 };
