@@ -46,13 +46,13 @@ companiesRouter.get("/:id", async (req: Request, res: Response, next: NextFuncti
 
 companiesRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { name, foundedYear, employesNumber, headquarters, ceo } = req.body as TechnologyCompaniesBody;
+    const { name, foundedYear, employesNumber, headquarters, ceo, id } = req.body as TechnologyCompaniesBody;
 
     const query: string = `
-    INSERT INTO technology_companies (name, founded_year, employes_number, headquarters, ceo)
-    VALUES (?,?,?,?,?)
+    INSERT INTO technology_companies (name, founded_year, employes_number, headquarters, ceo,id)
+    VALUES (?,?,?,?,?,?)
     `;
-    const params = [name, foundedYear, employesNumber, headquarters, ceo];
+    const params = [name, foundedYear, employesNumber, headquarters, ceo, id];
     const result = await sqlQuery(query, params);
     if (result) {
       return res.status(201).json({});
@@ -90,7 +90,7 @@ companiesRouter.put("/:id", async (req: Request, res: Response, next: NextFuncti
     SET name = ?, founded_year = ?, employes_number = ?, headquarters = ?, ceo = ?
     WHERE id = ?
     `;
-    const params = [name, foundedYear, employesNumber, headquarters, ceo];
+    const params = [name, foundedYear, employesNumber, headquarters, ceo, id];
     await sqlQuery(query, params);
     const rows = await sqlQuery(`
     SELECT *
