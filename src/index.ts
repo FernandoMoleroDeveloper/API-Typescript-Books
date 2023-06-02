@@ -1,18 +1,21 @@
 import { bookRouter } from "./routes/book.routes";
 import { authorRouter } from "./routes/author.routes";
 import { companiesRouter } from "./routes/companies.routes";
-
+import { AppDataSource } from "./databases/typeorm-datasource";
 import { type Request, type Response, type NextFunction, type ErrorRequestHandler } from "express";
 
 import express from "express";
 import cors from "cors";
 import { mongoConnect } from "./databases/mongo-db";
 import { sqlConnect } from "./databases/sql-db";
+import { studentRouter } from "./routes/student.routes";
+import { courseRouter } from "./routes/course.routes";
 
 const main = async (): Promise<void> => {
   // Conexión a BBDD
   const sqlDatabase = await sqlConnect();
   const mongoDatabase = await mongoConnect();
+  const dataSource = await AppDataSource.initialize();
 
   // Configuración del server
 
@@ -33,6 +36,7 @@ const main = async (): Promise<void> => {
     <h3>Esta es la home de nuestra API.</h3>
     <p>Estamos utilizando la BBDD de Mongo ${mongoDatabase?.connection?.name as string}</p>
     <p>Estamos utilizando la BBDD de SQL ${sqlDatabase?.config?.database as string} del host ${sqlDatabase?.config?.host as string}</p>
+    <p>Estamos utilizando la BBDD de TypeORM ${dataSource?.options?.database as string}</p>
     `);
   });
   router.get("*", (req: Request, res: Response) => {
@@ -50,6 +54,8 @@ const main = async (): Promise<void> => {
   app.use("/book", bookRouter);
   app.use("/author", authorRouter);
   app.use("/technoCompanies", companiesRouter);
+  app.use("/students", studentRouter);
+  app.use("/course", courseRouter);
   app.use("public", express.static("public"));
   app.use("/", router);
 
