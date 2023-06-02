@@ -39,10 +39,10 @@ courseRouter.get("/:id", async (req: Request, res: Response, next: NextFunction)
 
 courseRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newStudent = new Course();
+    const newCourse = new Course();
 
-    Object.assign(newStudent, ...req.body);
-    const courseSaved = await courseRepository.save(newStudent);
+    Object.assign(newCourse, req.body);
+    const courseSaved = await courseRepository.save(newCourse);
     res.status(201).json(courseSaved);
   } catch (error) {
     next(error);
@@ -78,7 +78,7 @@ courseRouter.put("/:id", async (req: Request, res: Response, next: NextFunction)
     if (!coursesToUpdate) {
       res.status(404).json({ error: "Student not found" });
     } else {
-      Object.assign(coursesToUpdate, ...req.body);
+      Object.assign(coursesToUpdate, req.body);
       await courseRepository.save(coursesToUpdate);
       res.json(coursesToUpdate);
     }
