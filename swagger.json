@@ -1,0 +1,62 @@
+{
+  "openapi": "3.0.0",
+  "info": { "title": "API de Libros", "version": "1.0.0", "description": "API de Libros con NodeJS, Express y MongoDB", "license": { "name": "MIT", "url": "http://mit.com" }, "contact": { "name": "Fernando", "url": "https://github.com/FernandoMoleroDeveloper", "email": "fmoleromartin@gmail.com" } },
+  "server": [{ "url": "http://localhost:3000" }],
+  "paths": {
+    "/authors": { "get": { "summary": "Get authors", "tags": ["Author"], "responses": { "200": { "description": "Operación exitosa", "content": { "application/json": { "schema": { "type": "object", "properties": { "data": { "type": "array", "items": { "$ref": "#/components/schemas/Author" } }, "pagination": { "$ref": "#/components/schemas/Pagination" } } } } } } } } },
+    "/author/{id}": {
+      "get": { "summary": "Get a author by ID", "tags": ["Author"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The author ID" }], "responses": { "200": { "description": "The author info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } },
+      "delete": { "summary": "Delete an author", "tags": ["Author"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The author id" }], "responses": { "200": { "description": "The author has been successfully deleted.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } },
+      "put": { "summary": "Update an author", "tags": ["Author"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The author id" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } }, "responses": { "200": { "description": "The author has been successfully updated.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } }
+    },
+    "/author/name/{name}": { "get": { "summary": "Get author by name", "tags": ["Author"], "parameters": [{ "in": "path", "name": "name", "schema": { "type": "string" }, "required": true, "description": "The author name" }], "responses": { "200": { "description": "The author info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } } },
+    "/author": { "post": { "summary": "Create new author", "tags": ["Author"], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } }, "responses": { "201": { "description": "The author has been successfully created.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } } },
+    "/author/image-upload": { "post": { "summary": "Upload author image", "tags": ["Author"], "requestBody": { "required": true, "content": { "multipart/form-data": { "schema": { "type": "object", "properties": { "image": { "type": "string", "format": "binary" } } } } } }, "responses": { "200": { "description": "The author image has been successfully uploaded.", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Author" } } } } } } },
+    "/author/login": { "post": { "summary": "Login an author", "tags": ["Author"], "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "email": { "type": "string", "format": "email" }, "password": { "type": "string" } } } } } }, "responses": { "200": { "description": "Login" } } } },
+    "/book": {
+      "get": {
+        "summary": "Get books",
+        "tags": ["Book"],
+        "parameters": [
+          { "in": "query", "name": "page", "schema": { "type": "integer" }, "description": "Page number" },
+          { "in": "query", "name": "limit", "schema": { "type": "integer" }, "description": "Items per page" }
+        ],
+        "responses": { "200": { "description": "Successful operation", "content": { "application/json": { "schema": { "type": "object", "properties": { "totalItems": { "type": "integer" }, "totalPages": { "type": "integer" }, "currentPage": { "type": "integer" }, "data": { "type": "array", "items": { "$ref": "#/components/schemas/Book" } } } } } } }, "400": { "description": "Invalid page or limit parameter" } }
+      },
+      "post": { "summary": "Create a new book", "tags": ["Book"], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } }, "responses": { "201": { "description": "The created book", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } } } }
+    },
+    "/book/{id}": {
+      "get": { "summary": "Get a book by ID", "tags": ["Book"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The book ID" }], "responses": { "200": { "description": "The book info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } }, "404": { "description": "Book not found" } } },
+      "delete": { "summary": "Delete a book by ID", "tags": ["Book"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The book ID" }], "responses": { "200": { "description": "The deleted book info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } }, "404": { "description": "Book not found" } } },
+      "put": { "summary": "Update a book by ID", "tags": ["Book"], "parameters": [{ "in": "path", "name": "id", "schema": { "type": "string" }, "required": true, "description": "The book ID" }], "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } }, "responses": { "200": { "description": "The updated book info", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Book" } } } }, "404": { "description": "Book not found" } } }
+    },
+    "/book/title/{title}": { "get": { "summary": "Get a book by title", "tags": ["Book"], "parameters": [{ "in": "path", "name": "title", "schema": { "type": "string" }, "required": true, "description": "The book title" }], "responses": { "200": { "description": "The book info", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Book" } } } } }, "404": { "description": "Book not found" } } } }
+  },
+  "components": {
+    "schemas": {
+      "Author": {
+        "type": "object",
+        "required": ["name", "country", "email", "password"],
+        "properties": {
+          "name": { "type": "string", "minLength": 3, "maxLength": 30, "description": "Nombre del autor. Debe tener al menos 3 letras y no más de 30." },
+          "country": { "type": "string", "minLength": 3, "maxLength": 20, "description": "País del autor. Debe tener al menos 3 letras y no más de 20. Debe estar en la lista de países permitidos." },
+          "authorImage": { "type": "string", "description": "Imagen del autor. No es obligatoria.", "nullable": true },
+          "email": { "type": "string", "format": "email", "description": "Email del autor. Debe ser un email válido." },
+          "password": { "type": "string", "format": "password", "description": "Contraseña del autor. Debe tener al menos 8 caracteres." }
+        }
+      },
+      "Book": {
+        "type": "object",
+        "required": ["title", "pages"],
+        "properties": {
+          "title": { "type": "string", "minLength": 3, "maxLength": 20, "description": "Título del libro. Debe tener al menos 3 caracteres y no más de 20." },
+          "author": { "type": "string", "format": "uuid", "description": "ID del autor del libro. No es obligatorio.", "nullable": true },
+          "pages": { "type": "integer", "minimum": 10, "maximum": 10000, "description": "Número de páginas del libro. Debe ser al menos 10 y no más de 10000." },
+          "publisher": { "type": "object", "properties": { "name": { "type": "string", "description": "Nombre del editor." }, "country": { "type": "string", "minLength": 3, "maxLength": 40, "description": "País del editor. Debe tener al menos 3 caracteres y no más de 40." } }, "required": ["name", "country"], "nullable": true }
+        }
+      },
+      "Pagination": { "type": "object", "properties": { "totalItems": { "type": "number", "description": "Total items on this endpoint" }, "totalPages": { "type": "number", "description": "Number of pages for this pagination" }, "currentPage": { "type": "number", "description": "Current page showed" } } }
+    }
+  },
+  "tags": [{ "name": "Book", "description": "The books managing API" }]
+}

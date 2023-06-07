@@ -1,3 +1,45 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Book:
+ *       type: "object"
+ *       required:
+ *         - title
+ *         - pages
+ *       properties:
+ *         title:
+ *           type: "string"
+ *           minLength: 3
+ *           maxLength: 20
+ *           description: "Título del libro. Debe tener al menos 3 caracteres y no más de 20."
+ *         author:
+ *           type: "string"
+ *           format: "uuid"
+ *           description: "ID del autor del libro. No es obligatorio."
+ *           nullable: true
+ *         pages:
+ *           type: "integer"
+ *           minimum: 10
+ *           maximum: 10000
+ *           description: "Número de páginas del libro. Debe ser al menos 10 y no más de 10000."
+ *         publisher:
+ *           type: "object"
+ *           properties:
+ *             name:
+ *               type: "string"
+ *               description: "Nombre del editor."
+ *             country:
+ *               type: "string"
+ *               minLength: 3
+ *               maxLength: 40
+ *               description: "País del editor. Debe tener al menos 3 caracteres y no más de 40."
+ *           required:
+ *             - "name"
+ *             - "country"
+ *           nullable: true
+ */
+
 import mongoose, { type ObjectId } from "mongoose";
 const Schema = mongoose.Schema;
 

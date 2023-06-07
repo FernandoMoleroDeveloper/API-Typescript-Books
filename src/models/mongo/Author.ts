@@ -1,3 +1,39 @@
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Author:
+ *       type: object
+ *       required:
+ *         - name
+ *         - country
+ *         - email
+ *         - password
+ *       properties:
+ *         name:
+ *           type: "string"
+ *           minLength: 3
+ *           maxLength: 30
+ *           description: "Nombre del autor. Debe tener al menos 3 letras y no más de 30."
+ *         country:
+ *           type: "string"
+ *           minLength: 3
+ *           maxLength: 20
+ *           description: "País del autor. Debe tener al menos 3 letras y no más de 20. Debe estar en la lista de países permitidos."
+ *         authorImage:
+ *           type: "string"
+ *           description: "Imagen del autor. No es obligatoria."
+ *           nullable: true
+ *         email:
+ *           type: "string"
+ *           format: "email"
+ *           description: "Email del autor. Debe ser un email válido."
+ *         password:
+ *           type: "string"
+ *           format: "password"
+ *           description: "Contraseña del autor. Debe tener al menos 8 caracteres."
+ */
+
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcrypt";

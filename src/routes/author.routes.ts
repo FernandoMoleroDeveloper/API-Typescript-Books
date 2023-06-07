@@ -1,3 +1,10 @@
+/**
+ * @swager
+ * tags:
+ *    name: Author
+ *    description: The authors managing API
+ */
+
 import express from "express";
 import fs from "fs";
 import multer from "multer";
@@ -13,7 +20,6 @@ const upload = multer({ dest: "public" });
 // Router propio de usuarios
 export const authorRouter = express.Router();
 
-// CRUD: READ
 authorRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
   console.log("Estamos en el middleware /author que comprueba parametros");
   const page = req.query.page ? parseInt(req.query.page as string) : 1;
@@ -28,6 +34,29 @@ authorRouter.get("/", (req: Request, res: Response, next: NextFunction) => {
     res.status(400).json({ error: "Params page or limit are not valid" });
   }
 });
+
+/**
+ * @swagger
+ * /authors:
+ *   get:
+ *     summary: "Get authors"
+ *     tags: [Author]
+ *     responses:
+ *       200:
+ *         description: "Operación exitosa"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: "#/components/schemas/Author"
+ *                 pagination:
+ *                   $ref: "#/components/schemas/Pagination"
+ */
+
 authorRouter.get("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const page: number = req.query.page as any;
@@ -40,9 +69,11 @@ authorRouter.get("/", async (req: Request, res: Response, next: NextFunction) =>
     const totalElements = await Author.countDocuments();
 
     const response = {
-      totalItems: totalElements,
-      totalPages: Math.ceil(totalElements / limit),
-      currentPage: page,
+      pagination: {
+        totalItems: totalElements,
+        totalPages: Math.ceil(totalElements / limit),
+        currentPage: page,
+      },
       data: authors,
     };
     res.json(response);
@@ -51,6 +82,27 @@ authorRouter.get("/", async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
+/**
+ * @swagger
+ * /author/{id}:
+ *   get:
+ *     summary: Get a author by ID
+ *     tags: [Author]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The author ID
+ *     responses:
+ *       200:
+ *         description: The author info
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
 authorRouter.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
@@ -72,6 +124,28 @@ authorRouter.get("/:id", async (req: Request, res: Response, next: NextFunction)
   }
 });
 
+/**
+ * @swagger
+ * /author/name/{name}:
+ *   get:
+ *     summary: Get author by name
+ *     tags: [Author]
+ *     parameters:
+ *       - in: path
+ *         name: name
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The author name
+ *     responses:
+ *       200:
+ *         description: The author info
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
+
 authorRouter.get("/name/:name", async (req: Request, res: Response, next: NextFunction) => {
   const name = req.params.name;
 
@@ -87,7 +161,26 @@ authorRouter.get("/name/:name", async (req: Request, res: Response, next: NextFu
   }
 });
 
-// Endpoint de creación
+/**
+ * @swagger
+ * /author:
+ *   post:
+ *     summary: Create new author
+ *     tags: [Author]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Author'
+ *     responses:
+ *       201:
+ *         description: The author has been successfully created.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
 
 authorRouter.post("/", async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -99,7 +192,27 @@ authorRouter.post("/", async (req: Request, res: Response, next: NextFunction) =
   }
 });
 
-// Endpoint para eliminar
+/**
+ * @swagger
+ * /author/{id}:
+ *   delete:
+ *     summary: Delete an author
+ *     tags: [Author]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The author id
+ *     responses:
+ *       200:
+ *         description: The author has been successfully deleted.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
 
 authorRouter.delete("/:id", isAuth, async (req: any, res: Response, next: NextFunction) => {
   try {
@@ -118,7 +231,33 @@ authorRouter.delete("/:id", isAuth, async (req: any, res: Response, next: NextFu
   }
 });
 
-// Endpoint update
+/**
+ * @swagger
+ * /author/{id}:
+ *   put:
+ *     summary: Update an author
+ *     tags: [Author]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The author id
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Author'
+ *     responses:
+ *       200:
+ *         description: The author has been successfully updated.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
 
 authorRouter.put("/:id", isAuth, async (req: any, res: Response, next: NextFunction) => {
   try {
@@ -142,6 +281,31 @@ authorRouter.put("/:id", isAuth, async (req: any, res: Response, next: NextFunct
     next(error);
   }
 });
+
+/**
+ * @swagger
+ * /author/image-upload:
+ *   post:
+ *     summary: Upload author image
+ *     tags: [Author]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       200:
+ *         description: The author image has been successfully uploaded.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Author'
+ */
 
 authorRouter.post("/image-upload", upload.single("image"), async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -169,6 +333,29 @@ authorRouter.post("/image-upload", upload.single("image"), async (req: Request, 
     next(error);
   }
 });
+
+/**
+ * @swagger
+ * /author/login:
+ *   post:
+ *     summary: Login an author
+ *     tags: [Author]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *               password:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Login
+ */
 
 authorRouter.post("/login", async (req: Request, res: Response, next: NextFunction) => {
   try {
