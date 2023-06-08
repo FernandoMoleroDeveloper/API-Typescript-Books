@@ -21,7 +21,7 @@ import { courseRouter } from "./routes/course.routes";
 // Configuración del server
 
 const PORT = 3000;
-const app = express();
+export const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
@@ -91,8 +91,10 @@ app.use((err: ErrorRequestHandler, req: Request, res: Response, next: NextFuncti
   }
 });
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server levantado en el puerto ${PORT}`);
 });
+
+server.close();
 // Algunos priductos como vercel necesitan que exportemos el servidor
-module.exports = app;
+// module.exports = app;
