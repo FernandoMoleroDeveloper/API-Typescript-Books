@@ -22,7 +22,9 @@ export const isAuth = async (req: any, res: Response, next: NextFunction): Promi
 
     return null;
   } catch (error) {
-    res.status(401).json(error);
+    res.status(401).json("No tienes autorización para realizar esta operación");
     return null;
   }
 };
+
+module.exports = { isAuth };
